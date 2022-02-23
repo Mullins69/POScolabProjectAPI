@@ -89,21 +89,5 @@ router.delete("/:id", [auth, getProduct], async (req, res, next) => {
     res.status(500).json({ message: error.message });
   }
 });
-//getting all carts 
-router.get('/:id/cart', auth, (req, res, next)=>{
-  
-})
-  
-//Adds a new item to the users cart
-router.post('/:id/cart',auth, (req, res, next)=>{
-  
-})
-//updates the items in the users cart
-router.put('/:id/cart',auth, (req, res, next)=>{
-  
-})
-//clears the user cart
-router.delete('/:id/cart',auth, (req, res, next)=>{
-  
-})
+
 module.exports = router;
