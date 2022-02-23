@@ -1,3 +1,4 @@
+const { stringifyStyle } = require("@vue/shared");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -28,9 +29,12 @@ const userSchema = new mongoose.Schema({
   },
   cart: [{
     product_id: String,
-    quantity: Number,
     title: String,
-    price: Number
+    quantity: Number,
+    category: String,
+    img: String,
+    price: Number,
+    created_by: String
   }],
 });
 

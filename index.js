@@ -18,16 +18,17 @@ app.use(express.json());
 // API routes
 app.get("/", (req, res, next) => {
     res.send({
-      message: "Welcome to Abduls API",
+      message: "Welcome to Abduls and Lilitas API",
       user_routes: {
         user_register: {
           method: "POST",
           route: "/users",
           request_body: {
-            name: "String",
+            fullname: "String",
             email: "String",
-            contact: "String",
+            phone_number: "String",
             password: "String",
+            cart: "object"
           },
           result: {
             jwt: "String token",
@@ -61,12 +62,12 @@ app.get("/", (req, res, next) => {
         update_user: {
           method: "PUT",
           request_body: {
-            name: "String",
+            fullname: "String",
             email: "String",
-            contact: "String",
+            phone_number: "String",
             password: "String",
-            avatar: "String",
             img: "String *optional* (Must be hosted image. I can suggest to host on Post Image)",
+            cart: "object"
           },
           route: "/users/:id",
           result: {
@@ -81,28 +82,28 @@ app.get("/", (req, res, next) => {
           },
         },
       },
-      post_routes: {
-        all_posts: {
+      product_routes: {
+        all_products: {
           method: "GET",
-          route: "/posts",
+          route: "/products",
           headers: {
             authorization: "Bearer (JWT token)",
           },
           result: {
-            posts: "Array",
+            product: "Array",
           },
         },
-        single_post: {
+        single_product: {
           method: "GET",
-          route: "/posts/:id",
+          route: "/postproducts/:id",
           headers: {
             authorization: "Bearer (JWT token)",
           },
           result: {
-            post: "Object",
+            product: "Object",
           },
         },
-        create_post: {
+        create_product: {
           method: "POST",
           route: "/posts/",
           headers: {
@@ -117,9 +118,9 @@ app.get("/", (req, res, next) => {
             post: "Object",
           },
         },
-        update_post: {
+        update_product: {
           method: "PUT",
-          route: "/posts/:id",
+          route: "/products/:id",
           headers: {
             authorization: "Bearer (JWT token)",
           },
