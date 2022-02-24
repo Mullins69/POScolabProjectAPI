@@ -2,9 +2,10 @@ require("dotenv").config;
 
 const express = require("express");
 const User = require("../models/user");
+const auth = require("../middleware/auth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { getUser } = require("../middleware/finders");
+const { getUser, getProduct } = require("../middleware/finders");
 
 const router = express.Router();
 
@@ -105,14 +106,34 @@ router.delete("/:id", getUser, async (req, res, next) => {
     res.status(500).json({ message: error.message });
   }
 });
-//getting all carts 
-router.get('/:id/cart', [auth,getUser], async (req, res, next)=>{
-  
+//getting all items in cart
+router.get('/:id/cart', auth,async (req, res, next)=>{
+  try{
+    res.json(req.user.cart)
+  }catch (error){
+    res.status(500).json({ msg: error})
+  }
 })
   
 //Adds a new item to the users cart
-router.post('/:id/cart',[auth,getUser], (req, res, next)=>{
+router.post('/:id/cart',[auth,getProduct],async (req, res, next)=>{ 
   
+    let product_id = res.product._id
+    let title = res.product.title
+    let category= res.product.category
+    let img = res.product.img
+    let price = res.product.price
+    let quantity = req.body
+    let created_by = req.user._id
+
+
+  try {
+    User.cart.append({product_id, title, category, img, price,quantity, created_by})
+    const updatedUser = await res.user.save();
+    res.status(201).json(updatedUser)
+  } catch (error) {
+    res.status(500).json(console.log(error))
+  }
 })
 //updates the items in the users cart
 router.put('/:id/cart',[auth,getUser], (req, res, next)=>{
