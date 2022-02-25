@@ -128,8 +128,9 @@ router.post('/:id/cart',[auth,getProduct],async (req, res, next)=>{
     let price = res.product.price
     let quantity = req.body
     let created_by = req.user._id
+
   try {
-    console.log(Array.isArray(user.cart))
+    // console.log(Array.isArray(user.cart))
     // user.cart = []
     user.cart.push( {product_id, title, category, img, price,quantity, created_by})
     const updatedUser = await user.save();
@@ -143,7 +144,8 @@ router.put('/:id/cart',[auth,getUser], (req, res, next)=>{
   
 })
 //clears the user cart
-router.delete('/:id/cart',[auth,getUser], (req, res, next)=>{
-  
-})
+router.delete('/:id/cart',[auth,getProduct], async(req, res, next)=>{
+ 
+}
+)
 module.exports = router;
