@@ -150,7 +150,7 @@ router.post("/:id/cart", [auth, getProduct], async (req, res, next) => {
 //updates the items in the users cart
 router.put("/:id/cart", [auth, getProduct], async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const inCart = user.cart.some((prod) => prod._id == req.pa    rams.id);
+  const inCart = user.cart.some((prod) => prod._id == req.params.id);
   if (inCart) {
     product.quantity += req.body.quantity;
     const updatedUser = await user.save();
