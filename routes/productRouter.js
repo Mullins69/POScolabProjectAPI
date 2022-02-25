@@ -1,10 +1,10 @@
 require("dotenv").config;
 
 const express = require("express");
-const Products = require("../models/product");
+const Post = require("../models/product");
 const auth = require("../middleware/auth");
 const { getUser, getProduct } = require("../middleware/finders");
-const product = require("../models/product");
+
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.post("/", auth, async (req, res, next) => {
   let product;
 
   img
-    ? (product = new Products({
+    ? (product = new Post({
         title,
         category,
         description,
@@ -39,7 +39,7 @@ router.post("/", auth, async (req, res, next) => {
         img,
         price
       }))
-    : (product = new Products({
+    : (product = new Post({
       title,
       category,
       description,

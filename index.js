@@ -90,7 +90,7 @@ app.get("/", (req, res, next) => {
             authorization: "Bearer (JWT token)",
           },
           result: {
-            product: "Array",
+            products: "Array",
           },
         },
         single_product: {
