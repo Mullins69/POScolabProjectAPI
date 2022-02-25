@@ -151,4 +151,3 @@ app.listen(app.get("port"), (server) => {
   console.info(`Server listen on port ${app.get("port")}`);
 });
 
-console.log("Hello chaifnasfiajf");
