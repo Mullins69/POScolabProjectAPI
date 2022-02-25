@@ -95,7 +95,7 @@ app.get("/", (req, res, next) => {
       },
       single_product: {
         method: "GET",
-        route: "/postproducts/:id",
+        route: "/products/:id",
         headers: {
           authorization: "Bearer (JWT token)",
         },
@@ -105,7 +105,7 @@ app.get("/", (req, res, next) => {
       },
       create_product: {
         method: "POST",
-        route: "/posts/",
+        route: "/products/",
         headers: {
           authorization: "Bearer (JWT token)",
         },
@@ -135,7 +135,7 @@ app.get("/", (req, res, next) => {
       },
       delete_post: {
         method: "DELETE",
-        route: "/posts/:id",
+        route: "/products/:id",
         result: {
           message: "Object",
         },
