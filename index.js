@@ -150,5 +150,3 @@ app.set("port", process.env.PORT || 6969);
 app.listen(app.get("port"), (server) => {
   console.info(`Server listen on port ${app.get("port")}`);
 });
-
-console.log("hello Jason W");
