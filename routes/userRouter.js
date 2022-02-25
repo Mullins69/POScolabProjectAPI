@@ -117,7 +117,10 @@ router.get('/:id/cart', auth,async (req, res, next)=>{
   
 //Adds a new item to the users cart
 router.post('/:id/cart',[auth,getProduct],async (req, res, next)=>{ 
-  
+    //  console.log(req.user)
+
+     const user = await User.findById(req.user._id)
+    // console.log(user)
     let product_id = res.product._id
     let title = res.product.title
     let category= res.product.category
@@ -125,11 +128,11 @@ router.post('/:id/cart',[auth,getProduct],async (req, res, next)=>{
     let price = res.product.price
     let quantity = req.body
     let created_by = req.user._id
-
-
   try {
-    User.cart.append({product_id, title, category, img, price,quantity, created_by})
-    const updatedUser = await res.user.save();
+    console.log(Array.isArray(user.cart))
+    // user.cart = []
+    user.cart.push( {product_id, title, category, img, price,quantity, created_by})
+    const updatedUser = await user.save();
     res.status(201).json(updatedUser)
   } catch (error) {
     res.status(500).json(console.log(error))
