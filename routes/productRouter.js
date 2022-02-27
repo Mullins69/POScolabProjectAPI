@@ -4,6 +4,7 @@ const express = require("express");
 const product = require("../models/product");
 const auth = require("../middleware/auth");
 const { getUser, getProduct } = require("../middleware/finders");
+const { populate } = require("../models/product");
 
 
 const router = express.Router();
@@ -28,10 +29,10 @@ router.post("/", auth, async (req, res, next) => {
 
   const { title, category,description, img, price } = req.body;
 
-  let product;
+  let products;
 
   img
-    ? (product = new product({
+    ? (products = new product({
         title,
         category,
         description,
@@ -39,7 +40,7 @@ router.post("/", auth, async (req, res, next) => {
         img,
         price
       }))
-    : (product = new product({
+    : (products = new product({
       title,
       category,
       description,
@@ -49,7 +50,7 @@ router.post("/", auth, async (req, res, next) => {
       }));
 
   try {
-    const newProduct = await product.save();
+    const newProduct = await products.save();
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(400).json({ message: error.message });
