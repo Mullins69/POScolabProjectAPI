@@ -117,8 +117,10 @@ router.get("/:id/cart", auth, async (req, res, next) => {
 
 //Adds a new item to the users cart
 router.post("/:id/cart", [auth, getProduct], async (req, res, next) => {
-  //  console.log(req.user)
 
+  //  console.log(req.user)
+//  const user1 = req.user[0]
+//  console.log('usser1 is '+ user1)
   const user = await User.findById(req.user._id);
   // console.log(user)
   let product_id = res.product._id;
@@ -187,5 +189,7 @@ router.put("/:id/cart", [auth, getProduct], async (req, res, next) => {
   }
 });
 //clears the user cart
-router.delete("/:id/cart", [auth, getProduct], async (req, res, next) => {});
+router.delete("/:id/cart", [auth, getProduct], async (req, res, next) => {
+  
+});
 module.exports = router;
