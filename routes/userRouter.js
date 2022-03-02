@@ -28,8 +28,6 @@ router.get("/oneuser/", auth,async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-  
-
 });
 
 // LOGIN user with email + password
@@ -150,12 +148,14 @@ router.delete("/:id", getUser, async (req, res, next) => {
   }
 });
 //getting all items in cart
-router.get("/:id/cart", [auth, getUser], async (req, res, next) => {
+router.get("/cart", auth, async (req, res, next) => {
   try {
-    res.json(res.user.cart);
+    const user = await User.findById(req.user._id)
+  res.status(201).json(user.cart)
   } catch (error) {
-    res.status(500).json({ msg: error });
+    res.status(500).json({ message: error.message });
   }
+
 });
 
 //Adds a new item to the users cart
@@ -193,7 +193,7 @@ router.post("/:id/cart", [auth, getProduct], async (req, res, next) => {
   }
 });
 //updates the items in the users cart
-router.put("/:id/cart", [auth, getProduct], async (req, res, next) => {
+router.put("/cart", [auth, getProduct], async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const inCart = user.cart.some((prod) => prod._id == req.params.id);
   if (inCart) {
@@ -232,7 +232,7 @@ router.put("/:id/cart", [auth, getProduct], async (req, res, next) => {
   }
 });
 //clears the user cart
-router.delete("/:id/cart", [auth, getProduct], async (req, res, next) => {
+router.delete("/cart", [auth, getProduct], async (req, res, next) => {
   
 });
 module.exports = router;
