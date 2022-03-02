@@ -107,9 +107,9 @@ router.delete("/:id", getUser, async (req, res, next) => {
   }
 });
 //getting all items in cart
-router.get("/:id/cart", auth, async (req, res, next) => {
+router.get("/:id/cart", [auth, getUser], async (req, res, next) => {
   try {
-    res.json(req.user.cart);
+    res.json(res.user.cart);
   } catch (error) {
     res.status(500).json({ msg: error });
   }
