@@ -6,6 +6,7 @@ const auth = require("../middleware/auth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { getUser, getProduct } = require("../middleware/finders");
+const { update } = require("../models/user");
 
 const router = express.Router();
 
@@ -79,23 +80,58 @@ router.post("/", async (req, res, next) => {
 });
 
 // UPDATE a user
-router.put("/:id", getUser, async (req, res, next) => {
+// router.put("/:id", getUser, async (req, res, next) => {
+//   const { fullname, phone_number, password } = req.body;
+//   if (fullname) res.user.fullname = fullname;
+//   if (phone_number) res.user.phone_number = phone_number;
+//   if (password) {
+//     const salt = await bcrypt.genSalt();
+//     const hashedPassword = await bcrypt.hash(password, salt);
+//     res.user.password = hashedPassword;
+//   }
+
+//   try {
+//     const updatedUser = await res.user.save();
+//     res.status(201).send(updatedUser);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// });
+
+router.put('/', auth, async (req, res, next)=>{
+  // Get user from DB using Schema
+  const user = await User.findById(req.user._id)
+
+  // Get info needed to update user
   const { fullname, phone_number, password } = req.body;
-  if (fullname) res.user.fullname = fullname;
-  if (phone_number) res.user.phone_number = phone_number;
+
+  // Set information
+  if (fullname) user.fullname = fullname;
+  if (phone_number) user.phone_number = phone_number;
   if (password) {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
-    res.user.password = hashedPassword;
+    user.password = hashedPassword;
   }
+ 
 
   try {
-    const updatedUser = await res.user.save();
-    res.status(201).send(updatedUser);
+    const updatedUser = await user.save();
+
+    try {
+      const access_token = jwt.sign(
+        JSON.stringify(updatedUser),
+        process.env.JWT_SECRET_KEY
+      );
+      res.status(201).json({ jwt: access_token, user: updatedUser });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+    // Dont just send user as object, create a JWT and send that too.
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-});
+})
 
 // DELETE a user
 router.delete("/:id", getUser, async (req, res, next) => {
