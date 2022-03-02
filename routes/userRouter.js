@@ -21,8 +21,15 @@ router.get("/", async (req, res) => {
 });
 
 // GET one user
-router.get("/:id", getUser, (req, res, next) => {
-  res.send(res.user);
+router.get("/oneuser/", auth,async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id)
+  res.status(201).json(user)
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+  
+
 });
 
 // LOGIN user with email + password
