@@ -78,13 +78,14 @@ router.put("/:id", [auth, getProduct], async (req, res, next) => {
 });
 
 // DELETE a product
-router.delete("/:id", [auth, getProduct], async (req, res, next) => {
+router.delete("/", [auth, getProduct], async (req, res, next) => {
   if (req.user._id !== res.product.created_by)
     res
       .status(400)
       .json({ message: "You do not have the permission to delete this product" });
   try {
-    await res.product.remove();
+    const product = await product.findById(req.product._id)
+    await product.remove();
     res.json({ message: "Deleted product" });
   } catch (error) {
     res.status(500).json({ message: error.message });
