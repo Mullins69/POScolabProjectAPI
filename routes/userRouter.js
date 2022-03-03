@@ -84,24 +84,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// UPDATE a user
-// router.put("/:id", getUser, async (req, res, next) => {
-//   const { fullname, phone_number, password } = req.body;
-//   if (fullname) res.user.fullname = fullname;
-//   if (phone_number) res.user.phone_number = phone_number;
-//   if (password) {
-//     const salt = await bcrypt.genSalt();
-//     const hashedPassword = await bcrypt.hash(password, salt);
-//     res.user.password = hashedPassword;
-//   }
 
-//   try {
-//     const updatedUser = await res.user.save();
-//     res.status(201).send(updatedUser);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// });
 
 router.put('/', auth, async (req, res, next)=>{
   // Get user from DB using Schema
