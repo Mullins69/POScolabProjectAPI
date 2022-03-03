@@ -4,7 +4,6 @@ const express = require("express");
 const product = require("../models/product");
 const auth = require("../middleware/auth");
 const { getUser, getProduct } = require("../middleware/finders");
-const { populate } = require("../models/product");
 
 
 const router = express.Router();
